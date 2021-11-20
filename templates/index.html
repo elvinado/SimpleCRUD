@@ -1,0 +1,88 @@
+{% extends "pure/layout.html" %}
+
+{% block head %}
+{{ pure.css }}
+<link rel="stylesheet" href="{{ url_for('static',filename='css/helper.css') }}">
+{% endblock %}
+
+
+{% block nav %}
+<div class="pure-g">
+    <div class="pure-u-1-5">
+    </div>
+    <div class="pure-u-3-5">
+        <div class="pure-menu pure-menu-horizontal">
+            <a href="/" class="pure-menu-heading pure-menu-link">Home</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+
+<div class="pure-g">
+    <div class="pure-u-1-5">
+    </div>
+    <div class="pure-u-3-5">
+        <div class="l-box">
+            <h1>Members</h1>
+            <p>{{err}}</p>
+            <form class="pure-form pure-form-stacked" action="/" method="POST">
+                <fieldset>
+                    <div class="pure-g">
+                        
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="id">ID</label>
+                            <input type="text" placeholder="ID" name="id" id="id" class="pure-u-23-24" required>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="first_name">First Name</label>
+                            <input type="text" placeholder="First Name" name="first_name" id="first_name" class="pure-u-23-24" required>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <label for="last_name">Last Name</label>
+                            <input type="text" placeholder="Last Name" name="last_name" id="last_name" class="pure-u-23-24" required>
+                        </div>
+                        <div class="pure-u-1 pure-u-md-1-3">
+                            <button type="submit" class="pure-button pure-button-primary" class="pure-u-23-24">Add Members</button>
+                        </div>
+                    </div>
+                </fieldset>
+            </form>
+        </div>
+        <div class="l-box">
+        {% if members|length < 1 %}
+        <h4>There are no member. Create one!</h4>
+        {% else %}
+        <table class="pure-table pure-table-horizontal">
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Date Join</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for id in members %}
+                <tr>
+                    <td>{{ id }}</td>
+                    <td>{{ members[id]['first_name'] }}</td>
+                    <td>{{ members[id]['last_name'] }}</td>
+                    <td>{{ members[id]['date_join'].date() }}</td>
+                    <td>
+                        <a class="pure-button button-error" href="/delete/{{id}}">Delete</a>
+
+                        <a class="pure-button button-secondary" href="/update/{{id}}">Update</a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        {% endif %}
+        </div>
+    </div>
+
+</div>  
+{% endblock %}
